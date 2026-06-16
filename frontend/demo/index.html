@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demonstração | Smart ChatLoja</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/demo.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navbar Simplificada -->
+    <nav class="navbar navbar-expand-lg fixed-top" style="background: rgba(255,255,255,0.98); border-bottom: 1px solid var(--border-color);">
+        <div class="container">
+            <a class="brand-logo" href="../index.html">
+                <img src="../assets/img/logo_icone.png" alt="Smart ChatLoja" class="brand-logo-img">
+                <span style="margin-left: 8px; font-weight: 600; color: var(--text-dark);">Smart ChatLoja</span>
+            </a>
+            <a href="../index.html" class="btn btn-sm btn-custom-outline">Voltar ao Site</a>
+        </div>
+    </nav>
+
+    <!-- Topo: Explicação -->
+    <section class="demo-hero">
+        <div class="container">
+            <span class="text-uppercase fw-bold text-muted small tracking-wide">Demonstração Interativa</span>
+            <h2 class="fw-bold mt-2 mb-3" style="color: var(--text-dark);">Veja a diferença na prática</h2>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                À esquerda, a experiência fluida do cliente conversando naturalmente com a IA pelo WhatsApp ou Instagram. 
+                À direita, como o mesmo cliente teria que navegar em um e-commerce tradicional para encontrar o mesmo produto.
+            </p>
+        </div>
+    </section>
+
+    <!-- Corpo: Comparação Lado a Lado -->
+    <section class="demo-split-container">
+        <div class="container">
+            <div class="row g-4 justify-content-center">
+                
+                <!-- Lado Esquerdo: Chat WhatsApp/Instagram -->
+                <div class="col-lg-5 col-md-6">
+                    <div class="demo-panel">
+                        <div class="panel-header chat">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326z"/>
+                            </svg>
+                            WhatsApp & Direct Instagram
+                        </div>
+                        <div class="chat-area">
+                            <div class="chat-bubble bot">
+                                Olá! 👋 Bem-vinda à Loja Sofia. Como posso te ajudar hoje?
+                                <div class="chat-time">10:30</div>
+                            </div>
+                            
+                            <div class="chat-bubble user">
+                                Oi! Vocês têm aquele vestido azul midi no tamanho M?
+                                <div class="chat-time">10:31</div>
+                            </div>
+
+                            <div class="typing-indicator">
+                                <span></span><span></span><span></span>
+                            </div>
+
+                            <div class="chat-bubble bot">
+                                Deixa eu verificar no estoque... Sim! Temos 2 unidades do <strong>Vestido Midi Sofia Azul</strong> no tamanho M. 
+                                <br><br>
+                                <img src="../assets/img/vestido-sofia.jpg" alt="Vestido Midi Sofia Azul">
+                                <br>
+                                Ele possui modelagem padrão. Deseja ver a tabela de medidas?
+                                <div class="chat-time">10:31</div>
+                            </div>
+
+                            <div class="chat-bubble user">
+                                Tem dele preto também?
+                                <div class="chat-time">10:32</div>
+                            </div>
+
+                            <div class="chat-bubble bot">
+                                No tamanho M o preto esgotou hoje cedo, mas temos no G! 
+                                <br><br>
+                                <img src="https://placehold.co/200x260/1a1a2e/ffffff?text=Vestido+Preto" alt="Vestido Midi Sofia Preto">
+                                <br>
+                                Posso te mostrar também o modelo <strong>Midi Luna Preto</strong> que acabou de chegar. Qual você prefere ver?
+                                <div class="chat-time">10:32</div>
+                            </div>
+
+                            <div class="chat-bubble user">
+                                Me mostra o Luna!
+                                <div class="chat-time">10:33</div>
+                            </div>
+
+                            <div class="chat-bubble bot">
+                                Aqui está o <strong>Vestido Midi Luna Preto</strong>! Ele tem um caimento mais estruturado e é perfeito para ocasiões formais. 
+                                <br><br>
+                                <img src="https://placehold.co/200x260/2d2d44/ffffff?text=Vestido+Luna" alt="Vestido Midi Luna Preto">
+                                <br>
+                                Temos do P ao G. Quer que eu reserve um para você experimentar na loja?
+                                <div class="chat-time">10:33</div>
+                            </div>
+
+                            <div class="chat-bubble user">
+                                Quero sim! Tem alguma promoção de calçados combinando?
+                                <div class="chat-time">10:34</div>
+                            </div>
+
+                            <div class="chat-bubble bot">
+                                Tenho sim! 🎉 Estamos com 20% OFF em sandálias de salto. 
+                                <br><br>
+                                <img src="https://placehold.co/200x260/8b4513/ffffff?text=Sandália+Salto" alt="Sandália de Salto">
+                                <br>
+                                Essa <strong>Sandália Sofia Nude</strong> combina perfeitamente com o vestido Luna! Quer ver mais opções?
+                                <div class="chat-time">10:34</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Área de Input do Chat -->
+                        <div class="chat-input-area">
+                            <input type="text" id="demoChatInput" placeholder="Digite sua mensagem..." autocomplete="off">
+                            <button id="demoSendBtn" class="btn-send" type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lado Direito: Loja Tradicional -->
+                <div class="col-lg-5 col-md-6">
+                    <div class="demo-panel">
+                        <div class="panel-header store">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+                            </svg>
+                            E-commerce Tradicional
+                        </div>
+                        <div class="store-area">
+                            <div class="store-search">🔍 Buscar por "vestido azul midi tamanho m"...</div>
+                            
+                            <div class="store-grid">
+                                <!-- Produto 1 -->
+                                <div class="store-product">
+                                    <img src="../assets/img/vestido-sofia.jpg" alt="Produto">
+                                    <div class="title">Vestido Midi Sofia Azul</div>
+                                    <div class="price">R$ 189,90</div>
+                                    <button class="btn btn-sm btn-outline-primary w-100 mt-2" style="font-size: 0.75rem;">Ver Detalhes</button>
+                                </div>
+                                
+                                <!-- Produto 2 -->
+                                <div class="store-product">
+                                    <img src="https://placehold.co/150x120/eee/999?text=Vestido+Longo" alt="Produto">
+                                    <div class="title">Vestido Longo Floral</div>
+                                    <div class="price">R$ 210,00</div>
+                                    <button class="btn btn-sm btn-outline-secondary w-100 mt-2" style="font-size: 0.75rem;" disabled>Esgotado</button>
+                                </div>
+
+                                <!-- Produto 3 -->
+                                <div class="store-product">
+                                    <img src="https://placehold.co/150x120/eee/999?text=Saia+Midi" alt="Produto">
+                                    <div class="title">Saia Midi Azul Marinho</div>
+                                    <div class="price">R$ 129,90</div>
+                                    <button class="btn btn-sm btn-outline-primary w-100 mt-2" style="font-size: 0.75rem;">Ver Detalhes</button>
+                                </div>
+
+                                <!-- Produto 4 -->
+                                <div class="store-product">
+                                    <img src="https://placehold.co/150x120/eee/999?text=Blusa" alt="Produto">
+                                    <div class="title">Blusa Social Azul</div>
+                                    <div class="price">R$ 89,90</div>
+                                    <button class="btn btn-sm btn-outline-primary w-100 mt-2" style="font-size: 0.75rem;">Ver Detalhes</button>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <small class="text-muted">O cliente precisa filtrar, clicar, verificar tamanho e voltar.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="demo-cta">
+        <div class="container">
+            <h3>Pronto para transformar suas vendas?</h3>
+            <p>Veja nossos planos e escolha o ideal para o seu negócio</p>
+            <a href="../index.html#planos" class="btn btn-custom-dark btn-lg">Ver Planos e Preços</a>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

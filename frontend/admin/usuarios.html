@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuários | Admin Smart ChatLoja</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- CSS Global do Projeto -->
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <!-- CSS Específico do Admin -->
+    <link href="/admin/css/sidebar.css" rel="stylesheet">
+    
+    <style>
+        .usuario-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            height: 100%;
+            transition: all 0.2s;
+        }
+        
+        .usuario-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+        
+        .usuario-card.inativo {
+            opacity: 0.6;
+            background: #f9fafb;
+        }
+        
+        .usuario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .usuario-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .usuario-info {
+            flex: 1;
+            margin-left: 12px;
+            min-width: 0;
+        }
+        
+        .usuario-nome {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .usuario-email {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .usuario-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-action {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
+        }
+        
+        .btn-action:hover { background: var(--gray-light); }
+        .btn-action.edit:hover { color: var(--accent); border-color: var(--accent); }
+        .btn-action.delete:hover { color: #dc2626; border-color: #dc2626; background: #fef2f2; }
+        .btn-action.toggle.active { color: #dc2626; }
+        .btn-action.toggle.inactive { color: #16a34a; }
+        
+        .usuario-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+        
+        .info-row i {
+            color: var(--text-muted);
+            width: 16px;
+            flex-shrink: 0;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+
+        .tipo-badge {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .tipo-interno { background: #e0e7ff; color: #4338ca; }
+        .tipo-empresa { background: #fef3c7; color: #92400e; }
+    </style>
+</head>
+
+<body>
+
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div id="sidebar-include"></div>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header" id="header-include"></header>
+
+            <div class="page-content">
+                <div class="container-fluid">
+                    
+                    <!-- Cabeçalho -->
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                        <div>
+                            <h4 class="fw-bold mb-1" style="color: var(--text-dark);">Gerenciar Usuários</h4>
+                            <p class="text-muted mb-0">Administradores do sistema e representantes das empresas.</p>
+                        </div>
+                        <button class="btn btn-custom-dark" data-bs-toggle="modal" data-bs-target="#modalUsuario" onclick="abrirModalNovoUsuario()">
+                            <i class="bi bi-plus-lg me-2"></i>Novo Usuário
+                        </button>
+                    </div>
+
+                    <!-- Filtros Rápidos -->
+                    <div class="mb-4 d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-secondary active" onclick="filtrarUsuarios('todos', this)">Todos</button>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="filtrarUsuarios('interno', this)">Internos</button>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="filtrarUsuarios('empresa', this)">Empresas</button>
+                    </div>
+
+                    <!-- Grid de Cards -->
+                    <div class="row g-3" id="gridUsuarios">
+                        <div class="col-12 text-center py-5 text-muted">
+                            <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                            Carregando usuários...
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Cadastro/Edição -->
+    <div class="modal fade" id="modalUsuario" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="modalTitulo">Cadastrar Novo Usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="formUsuario">
+                    <input type="hidden" id="usuarioId" name="id">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nome Completo *</label>
+                                <input type="text" class="form-control" name="nome" required placeholder="Ex: João Silva">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">E-mail *</label>
+                                <input type="email" class="form-control" name="email" required placeholder="joao@exemplo.com">
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label">Senha <span id="labelSenhaOpcional" class="text-muted small">(Opcional na edição)</span></label>
+                                <input type="password" class="form-control" name="senha" id="inputSenha" placeholder="••••••••">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Tipo de Usuário *</label>
+                                <select class="form-select" name="tipo" id="selectTipo" required onchange="toggleCampoEmpresa()">
+                                    <option value="interno">Interno (Admin do Sistema)</option>
+                                    <option value="empresa">Representante de Empresa</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12 d-none" id="divEmpresa">
+                                <label class="form-label">Vincular à Empresa *</label>
+                                <select class="form-select" name="empresa_id" id="selectEmpresa">
+                                    <option value="">Selecione uma empresa...</option>
+                                </select>
+                                <div class="form-text">O usuário terá acesso apenas aos dados desta empresa.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-custom-dark" id="btnSalvarUsuario">
+                            <span class="spinner-border spinner-border-sm d-none" id="loadingSalvar"></span>
+                            Salvar Usuário
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/admin/js/sidebar.js"></script>
+    
+    <script>
+        let editandoUsuarioId = null;
+        let filtroAtual = 'todos';
+        let listaEmpresas = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarEmpresasParaSelect();
+            carregarUsuarios();
+            
+            document.getElementById('formUsuario').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const btnSalvar = document.getElementById('btnSalvarUsuario');
+                const loading = document.getElementById('loadingSalvar');
+                const form = e.target;
+                
+                btnSalvar.disabled = true;
+                loading.classList.remove('d-none');
+
+                const formData = new FormData(form);
+                const dadosUsuario = {
+                    nome: formData.get('nome'),
+                    email: formData.get('email'),
+                    tipo: formData.get('tipo'),
+                    empresa_id: formData.get('tipo') === 'empresa' ? (parseInt(formData.get('empresa_id')) || null) : null
+                };
+
+                // Só envia a senha se o campo estiver preenchido
+                const senha = formData.get('senha');
+                if (senha && senha.trim() !== '') {
+                    dadosUsuario.senha = senha;
+                } else if (!editandoUsuarioId) {
+                    alert('A senha é obrigatória para novos usuários.');
+                    btnSalvar.disabled = false;
+                    loading.classList.add('d-none');
+                    return;
+                }
+
+                try {
+                    const token = localStorage.getItem('smartchat_token');
+                    const url = editandoUsuarioId ? `/api/usuarios/${editandoUsuarioId}` : '/api/usuarios/';
+                    const method = editandoUsuarioId ? 'PUT' : 'POST';
+
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(dadosUsuario)
+                    });
+
+                    if (!response.ok) {
+                        const err = await response.json();
+                        throw new Error(err.detail || 'Erro ao salvar usuário.');
+                    }
+
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('modalUsuario'));
+                    modal.hide();
+                    form.reset();
+                    editandoUsuarioId = null;
+                    carregarUsuarios();
+                    
+                } catch (error) {
+                    alert('Erro: ' + error.message);
+                } finally {
+                    btnSalvar.disabled = false;
+                    loading.classList.add('d-none');
+                }
+            });
+        });
+
+        async function carregarEmpresasParaSelect() {
+            try {
+                const token = localStorage.getItem('smartchat_token');
+                const response = await fetch('/api/empresas/', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (response.ok) {
+                    listaEmpresas = await response.json();
+                    const select = document.getElementById('selectEmpresa');
+                    select.innerHTML = '<option value="">Selecione uma empresa...</option>';
+                    listaEmpresas.filter(e => e.is_ativo).forEach(emp => {
+                        select.innerHTML += `<option value="${emp.id}">${emp.nome}</option>`;
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao carregar empresas:', error);
+            }
+        }
+
+        function toggleCampoEmpresa() {
+            const tipo = document.getElementById('selectTipo').value;
+            const divEmpresa = document.getElementById('divEmpresa');
+            const selectEmpresa = document.getElementById('selectEmpresa');
+            
+            if (tipo === 'empresa') {
+                divEmpresa.classList.remove('d-none');
+                selectEmpresa.setAttribute('required', 'required');
+            } else {
+                divEmpresa.classList.add('d-none');
+                selectEmpresa.removeAttribute('required');
+                selectEmpresa.value = '';
+            }
+        }
+
+        function abrirModalNovoUsuario() {
+            editandoUsuarioId = null;
+            document.getElementById('modalTitulo').textContent = 'Cadastrar Novo Usuário';
+            document.getElementById('formUsuario').reset();
+            document.getElementById('inputSenha').setAttribute('required', 'required');
+            document.getElementById('labelSenhaOpcional').classList.add('d-none');
+            toggleCampoEmpresa();
+        }
+
+        function abrirModalEditarUsuario(id) {
+            editandoUsuarioId = id;
+            document.getElementById('modalTitulo').textContent = 'Editar Usuário';
+            document.getElementById('inputSenha').removeAttribute('required');
+            document.getElementById('labelSenhaOpcional').classList.remove('d-none');
+            
+            const token = localStorage.getItem('smartchat_token');
+            fetch(`/api/usuarios/${id}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(response => response.json())
+            .then(usuario => {
+                const form = document.getElementById('formUsuario');
+                form.nome.value = usuario.nome || '';
+                form.email.value = usuario.email || '';
+                form.tipo.value = usuario.tipo || 'interno';
+                
+                toggleCampoEmpresa(); // Mostra/esconde o campo empresa baseado no tipo
+                
+                if (usuario.tipo === 'empresa' && usuario.empresa_id) {
+                    form.empresa_id.value = usuario.empresa_id;
+                }
+                
+                const modal = new bootstrap.Modal(document.getElementById('modalUsuario'));
+                modal.show();
+            })
+            .catch(error => {
+                alert('Erro ao carregar dados: ' + error.message);
+            });
+        }
+
+        function getIniciais(nome) {
+            return nome.split(' ')
+                .map(p => p[0])
+                .slice(0, 2)
+                .join('')
+                .toUpperCase();
+        }
+
+        async function carregarUsuarios() {
+            const grid = document.getElementById('gridUsuarios');
+            grid.innerHTML = `
+                <div class="col-12 text-center py-5 text-muted">
+                    <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                    Carregando...
+                </div>`;
+
+            try {
+                const token = localStorage.getItem('smartchat_token');
+                let url = '/api/usuarios/';
+                if (filtroAtual !== 'todos') {
+                    url += `?tipo=${filtroAtual}`;
+                }
+
+                const response = await fetch(url, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) throw new Error('Falha ao buscar usuários');
+
+                const usuarios = await response.json();
+
+                if (usuarios.length === 0) {
+                    grid.innerHTML = `
+                        <div class="col-12 empty-state">
+                            <i class="bi bi-people d-block"></i>
+                            <h5>Nenhum usuário encontrado</h5>
+                            <p>Clique em "Novo Usuário" para começar.</p>
+                        </div>`;
+                    return;
+                }
+
+                grid.innerHTML = usuarios.map(user => {
+                    const empresa = listaEmpresas.find(e => e.id === user.empresa_id);
+                    const nomeEmpresa = empresa ? empresa.nome : 'Não vinculada';
+                    
+                    return `
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                        <div class="usuario-card ${user.is_ativo ? '' : 'inativo'}">
+                            <div class="usuario-header">
+                                <div class="usuario-avatar">
+                                    ${getIniciais(user.nome)}
+                                </div>
+                                <div class="usuario-info">
+                                    <div class="usuario-nome" title="${user.nome}">${user.nome}</div>
+                                    <div class="usuario-email" title="${user.email}">${user.email}</div>
+                                </div>
+                                <div class="usuario-actions">
+                                    <button class="btn-action edit" onclick="abrirModalEditarUsuario(${user.id})" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn-action delete" onclick="deletarUsuario(${user.id}, '${user.nome}')" title="Excluir">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="tipo-badge ${user.tipo === 'interno' ? 'tipo-interno' : 'tipo-empresa'}">
+                                    ${user.tipo === 'interno' ? 'Interno' : 'Empresa'}
+                                </span>
+                                <span class="badge ${user.is_ativo ? 'bg-success bg-opacity-10 text-success' : 'bg-danger bg-opacity-10 text-danger'}" style="font-size: 0.75rem;">
+                                    ${user.is_ativo ? 'Ativo' : 'Inativo'}
+                                </span>
+                                <button class="btn-action toggle ${user.is_ativo ? 'active' : 'inactive'}" 
+                                        onclick="toggleStatusUsuario(${user.id}, ${user.is_ativo})" 
+                                        title="${user.is_ativo ? 'Desativar' : 'Reativar'}"
+                                        style="width: auto; padding: 4px 8px; font-size: 0.75rem; gap: 4px;">
+                                    <i class="bi ${user.is_ativo ? 'bi-pause-fill' : 'bi-play-fill'}"></i>
+                                    ${user.is_ativo ? 'Desativar' : 'Reativar'}
+                                </button>
+                            </div>
+
+                            ${user.tipo === 'empresa' ? `
+                            <div class="usuario-section">
+                                <div class="section-title">Empresa Vinculada</div>
+                                <div class="info-row">
+                                    <i class="bi bi-building"></i>
+                                    <span class="truncate" title="${nomeEmpresa}">${nomeEmpresa}</span>
+                                </div>
+                            </div>` : ''}
+                        </div>
+                    </div>
+                `}).join('');
+
+            } catch (error) {
+                grid.innerHTML = `
+                    <div class="col-12 text-center py-5 text-danger">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        Erro ao carregar dados.
+                    </div>`;
+            }
+        }
+
+        function filtrarUsuarios(tipo, btn) {
+            filtroAtual = tipo;
+            // Atualiza classe active dos botões
+            document.querySelectorAll('.mb-4 .btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            carregarUsuarios();
+        }
+
+        async function deletarUsuario(id, nome) {
+            if (!confirm(`Tem certeza que deseja excluir PERMANENTEMENTE o usuário "${nome}"?\n\nEsta ação não pode ser desfeita.`)) {
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('smartchat_token');
+                const response = await fetch(`/api/usuarios/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.detail || 'Erro ao excluir.');
+                }
+
+                carregarUsuarios();
+            } catch (error) {
+                alert('Erro: ' + error.message);
+            }
+        }
+
+        async function toggleStatusUsuario(id, estaAtivo) {
+            const acao = estaAtivo ? 'desativar' : 'reativar';
+            const texto = estaAtivo ? 'desativar' : 'reativar';
+            
+            if (!confirm(`Deseja realmente ${texto} este usuário?`)) {
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('smartchat_token');
+                const response = await fetch(`/api/usuarios/${id}/${acao}`, {
+                    method: 'PATCH',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.detail || `Erro ao ${texto}.`);
+                }
+
+                carregarUsuarios();
+            } catch (error) {
+                alert('Erro: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

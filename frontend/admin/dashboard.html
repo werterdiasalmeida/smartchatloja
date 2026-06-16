@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Admin Smart ChatLoja</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- CSS Global do Projeto -->
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <!-- CSS Específico do Admin -->
+    <link href="/admin/css/sidebar.css" rel="stylesheet">
+
+    <style>
+        .stat-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.2s;
+            height: 100%;
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .stat-sublabel {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .top-empresa-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .top-empresa-item:last-child {
+            border-bottom: none;
+        }
+
+        .top-empresa-rank {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .top-empresa-rank.gold { background: #fef3c7; color: #92400e; }
+        .top-empresa-rank.silver { background: #e5e7eb; color: #374151; }
+        .top-empresa-rank.bronze { background: #fed7aa; color: #9a3412; }
+
+        .top-empresa-name {
+            flex: 1;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        .top-empresa-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .welcome-card {
+            background: linear-gradient(135deg, var(--accent), #6366f1);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .welcome-card h4 {
+            color: #fff;
+        }
+
+        .welcome-card p {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .alert-card {
+            border-left: 4px solid;
+            border-radius: 12px;
+        }
+
+        .alert-card.warning {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .alert-card.danger {
+            border-left-color: #dc2626;
+            background: #fef2f2;
+        }
+
+        .alert-card.success {
+            border-left-color: #10b981;
+            background: #f0fdf4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div id="sidebar-include"></div>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header" id="header-include"></header>
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <!-- Card de Boas-vindas -->
+                    <div class="welcome-card mb-4">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center gap-3">
+                                <div>
+                                    <i class="bi bi-emoji-smile fs-1"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold mb-1">Bem-vindo ao Smart ChatLoja!</h4>
+                                    <p class="mb-0">Aqui está um resumo do seu sistema. Tudo está funcionando perfeitamente.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alertas (aparecem condicionalmente) -->
+                    <div id="alertasContainer" class="row g-3 mb-4"></div>
+
+                    <!-- Cards Principais de Estatísticas -->
+                    <div class="row g-3 mb-4">
+                        <!-- Empresas -->
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="stat-card p-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="stat-icon" style="background: rgba(0, 102, 255, 0.1); color: var(--accent);">
+                                        <i class="bi bi-building"></i>
+                                    </div>
+                                    <div>
+                                        <div class="stat-value" id="statEmpresas">-</div>
+                                        <div class="stat-label">Empresas</div>
+                                        <div class="stat-sublabel" id="statEmpresasSub">carregando...</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Usuários -->
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="stat-card p-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="stat-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div>
+                                        <div class="stat-value" id="statUsuarios">-</div>
+                                        <div class="stat-label">Usuários</div>
+                                        <div class="stat-sublabel" id="statUsuariosSub">carregando...</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Produtos -->
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="stat-card p-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                                        <i class="bi bi-box-seam"></i>
+                                    </div>
+                                    <div>
+                                        <div class="stat-value" id="statProdutos">-</div>
+                                        <div class="stat-label">Produtos Ativos</div>
+                                        <div class="stat-sublabel" id="statProdutosSub">carregando...</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Valor em Estoque -->
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="stat-card p-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                                        <i class="bi bi-currency-dollar"></i>
+                                    </div>
+                                    <div>
+                                        <div class="stat-value" id="statValorEstoque">-</div>
+                                        <div class="stat-label">Valor em Estoque</div>
+                                        <div class="stat-sublabel">Preço × Quantidade</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Linha inferior: Top Empresas -->
+                    <div class="row g-3">
+                        <div class="col-12 col-lg-8">
+                            <div class="card border-0 shadow-sm" style="border-radius: 12px;">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="fw-bold mb-0" style="color: var(--text-dark);">
+                                            <i class="bi bi-trophy me-2" style="color: #f59e0b;"></i>
+                                            Top 5 Empresas por Catálogo
+                                        </h5>
+                                    </div>
+                                    <div id="topEmpresasContainer">
+                                        <div class="text-center py-4 text-muted">
+                                            <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                            Carregando...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-4">
+                            <div class="card border-0 shadow-sm h-100" style="border-radius: 12px;">
+                                <div class="card-body p-4">
+                                    <h5 class="fw-bold mb-3" style="color: var(--text-dark);">
+                                        <i class="bi bi-lightning-charge me-2" style="color: var(--accent);"></i>
+                                        Ações Rápidas
+                                    </h5>
+                                    <div class="d-grid gap-2">
+                                        <a href="/admin/empresas.html" class="btn btn-outline-primary">
+                                            <i class="bi bi-building me-2"></i>Gerenciar Empresas
+                                        </a>
+                                        <a href="/admin/usuarios.html" class="btn btn-outline-primary">
+                                            <i class="bi bi-people me-2"></i>Gerenciar Usuários
+                                        </a>
+                                        <a href="/admin/produtos.html" class="btn btn-outline-primary">
+                                            <i class="bi bi-box-seam me-2"></i>Ver Produtos
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/admin/js/sidebar.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarEstatisticas();
+        });
+
+        async function carregarEstatisticas() {
+            try {
+                const token = localStorage.getItem('smartchat_token');
+                const response = await fetch('/api/admin/estatisticas', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) throw new Error('Falha ao buscar estatísticas');
+
+                const dados = await response.json();
+                atualizarCards(dados);
+                atualizarAlertas(dados);
+                atualizarTopEmpresas(dados.top_empresas);
+
+            } catch (error) {
+                console.error('Erro ao carregar estatísticas:', error);
+                document.getElementById('alertasContainer').innerHTML = `
+                    <div class="col-12">
+                        <div class="alert-card danger p-3">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            Erro ao carregar estatísticas do sistema.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function atualizarCards(dados) {
+            // Empresas
+            document.getElementById('statEmpresas').textContent = formatarNumero(dados.empresas.total);
+            document.getElementById('statEmpresasSub').textContent = 
+                `${dados.empresas.ativas} ativa${dados.empresas.ativas !== 1 ? 's' : ''}`;
+
+            // Usuários
+            document.getElementById('statUsuarios').textContent = formatarNumero(dados.usuarios.total);
+            document.getElementById('statUsuariosSub').textContent = 
+                `${dados.usuarios.internos} interno${dados.usuarios.internos !== 1 ? 's' : ''} · ${dados.usuarios.empresas} empresa${dados.usuarios.empresas !== 1 ? 's' : ''}`;
+
+            // Produtos
+            document.getElementById('statProdutos').textContent = formatarNumero(dados.produtos.total);
+            document.getElementById('statProdutosSub').textContent = 
+                dados.produtos.sem_estoque > 0 
+                    ? `${dados.produtos.sem_estoque} sem estoque`
+                    : 'todos em estoque';
+
+            // Valor em estoque
+            document.getElementById('statValorEstoque').textContent = formatarMoeda(dados.produtos.valor_total_estoque);
+        }
+
+        function atualizarAlertas(dados) {
+            const container = document.getElementById('alertasContainer');
+            let alertas = [];
+
+            if (dados.produtos.sem_estoque > 0) {
+                alertas.push(`
+                    <div class="col-12 col-md-6">
+                        <div class="alert-card warning p-3 d-flex align-items-center gap-3">
+                            <i class="bi bi-exclamation-triangle-fill fs-3" style="color: #f59e0b;"></i>
+                            <div>
+                                <strong class="d-block">${dados.produtos.sem_estoque} produto${dados.produtos.sem_estoque !== 1 ? 's' : ''} sem estoque</strong>
+                                <small class="text-muted">Revise os produtos esgotados para evitar frustração dos clientes.</small>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            }
+
+            if (dados.empresas.ativas === 0 && dados.empresas.total > 0) {
+                alertas.push(`
+                    <div class="col-12 col-md-6">
+                        <div class="alert-card danger p-3 d-flex align-items-center gap-3">
+                            <i class="bi bi-x-circle-fill fs-3" style="color: #dc2626;"></i>
+                            <div>
+                                <strong class="d-block">Nenhuma empresa ativa</strong>
+                                <small class="text-muted">Todas as empresas estão inativas. Reative alguma para continuar.</small>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            }
+
+            if (dados.empresas.total > 0 && dados.produtos.total === 0) {
+                alertas.push(`
+                    <div class="col-12 col-md-6">
+                        <div class="alert-card warning p-3 d-flex align-items-center gap-3">
+                            <i class="bi bi-box-seam fs-3" style="color: #f59e0b;"></i>
+                            <div>
+                                <strong class="d-block">Nenhum produto cadastrado</strong>
+                                <small class="text-muted">Aguarde a sincronização do ETL ou cadastre manualmente.</small>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            }
+
+            if (alertas.length === 0 && dados.empresas.total > 0) {
+                alertas.push(`
+                    <div class="col-12">
+                        <div class="alert-card success p-3 d-flex align-items-center gap-3">
+                            <i class="bi bi-check-circle-fill fs-3" style="color: #10b981;"></i>
+                            <div>
+                                <strong class="d-block">Tudo certo por aqui!</strong>
+                                <small class="text-muted">Não há alertas pendentes no momento.</small>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            }
+
+            container.innerHTML = alertas.join('');
+        }
+
+        function atualizarTopEmpresas(topEmpresas) {
+            const container = document.getElementById('topEmpresasContainer');
+
+            if (!topEmpresas || topEmpresas.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-4 text-muted">
+                        <i class="bi bi-inbox fs-1 d-block mb-2" style="opacity: 0.3;"></i>
+                        <p class="mb-0">Nenhuma empresa com produtos ainda.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = topEmpresas.map((emp, index) => {
+                let rankClass = '';
+                if (index === 0) rankClass = 'gold';
+                else if (index === 1) rankClass = 'silver';
+                else if (index === 2) rankClass = 'bronze';
+
+                return `
+                    <div class="top-empresa-item">
+                        <div class="d-flex align-items-center">
+                            <div class="top-empresa-rank ${rankClass}">${index + 1}</div>
+                            <div class="top-empresa-name">${emp.nome}</div>
+                        </div>
+                        <div class="top-empresa-count">
+                            ${emp.total_produtos} produto${emp.total_produtos !== 1 ? 's' : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function formatarNumero(num) {
+            if (num === null || num === undefined) return '0';
+            return num.toLocaleString('pt-BR');
+        }
+
+        function formatarMoeda(valor) {
+            if (valor === null || valor === undefined) return 'R$ 0,00';
+            return valor.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+    </script>
+</body>
+</html>

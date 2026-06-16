@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empresas | Admin Smart ChatLoja</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- CSS Global do Projeto -->
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <!-- CSS Específico do Admin -->
+    <link href="/admin/css/sidebar.css" rel="stylesheet">
+    
+    <style>
+        .empresa-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            height: 100%;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .empresa-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+        
+        .empresa-card.inativa {
+            opacity: 0.6;
+            background: #f9fafb;
+        }
+        
+        .empresa-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .empresa-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent), #6366f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.4rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .empresa-info {
+            flex: 1;
+            margin-left: 12px;
+            min-width: 0;
+        }
+        
+        .empresa-nome {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .empresa-cnpj {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .empresa-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-action {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
+        }
+        
+        .btn-action:hover {
+            background: var(--gray-light);
+        }
+        
+        .btn-action.edit:hover { color: var(--accent); border-color: var(--accent); }
+        .btn-action.delete:hover { color: #dc2626; border-color: #dc2626; background: #fef2f2; }
+        .btn-action.toggle.active { color: #dc2626; }
+        .btn-action.toggle.inactive { color: #16a34a; }
+        
+        .empresa-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+        
+        .info-row i {
+            color: var(--text-muted);
+            width: 16px;
+            flex-shrink: 0;
+        }
+        
+        .info-row .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div id="sidebar-include"></div>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header" id="header-include"></header>
+
+            <div class="page-content">
+                <div class="container-fluid">
+                    
+                    <!-- Cabeçalho -->
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+                        <div>
+                            <h4 class="fw-bold mb-1" style="color: var(--text-dark);">Gerenciar Empresas</h4>
+                            <p class="text-muted mb-0">Cadastre e gerencie as lojas que utilizam o Smart ChatLoja.</p>
+                        </div>
+                        <button class="btn btn-custom-dark" data-bs-toggle="modal" data-bs-target="#modalEmpresa" onclick="abrirModalNovaEmpresa()">
+                            <i class="bi bi-plus-lg me-2"></i>Nova Empresa
+                        </button>
+                    </div>
+
+                    <!-- Grid de Cards -->
+                    <div class="row g-3" id="gridEmpresas">
+                        <!-- Cards serão inseridos via JavaScript -->
+                        <div class="col-12 text-center py-5 text-muted">
+                            <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                            Carregando empresas...
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Cadastro/Edição -->
+    <div class="modal fade" id="modalEmpresa" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="modalTitulo">Cadastrar Nova Empresa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="formEmpresa">
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <h6 class="text-uppercase text-muted small fw-bold mb-3">Dados da Empresa</h6>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label">Nome da Empresa / Loja *</label>
+                                <input type="text" class="form-control" name="nome" required placeholder="Ex: Loja Sofia Moda Feminina">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">CNPJ</label>
+                                <input type="text" class="form-control" name="cnpj" placeholder="00.000.000/0001-00">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">E-mail de Contato Geral</label>
+                                <input type="email" class="form-control" name="email_contato" placeholder="contato@empresa.com.br">
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <h6 class="text-uppercase text-muted small fw-bold mb-3">Dados do Representante</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Nome Completo *</label>
+                                <input type="text" class="form-control" name="representante_nome" required placeholder="Ex: Maria Silva">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">E-mail do Representante *</label>
+                                <input type="email" class="form-control" name="representante_email" required placeholder="maria@empresa.com.br">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Telefone / WhatsApp</label>
+                                <input type="text" class="form-control" name="representante_telefone" placeholder="(11) 99999-9999">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-custom-dark" id="btnSalvarEmpresa">
+                            <span class="spinner-border spinner-border-sm d-none" id="loadingSalvar"></span>
+                            Salvar Empresa
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/admin/js/sidebar.js"></script>
+    
+    <script>
+        let editandoEmpresaId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarEmpresas();
+            
+            document.getElementById('formEmpresa').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const btnSalvar = document.getElementById('btnSalvarEmpresa');
+                const loading = document.getElementById('loadingSalvar');
+                const form = e.target;
+                
+                btnSalvar.disabled = true;
+                loading.classList.remove('d-none');
+
+                const formData = new FormData(form);
+                const dadosEmpresa = {
+                    nome: formData.get('nome'),
+                    cnpj: formData.get('cnpj') || null,
+                    email_contato: formData.get('email_contato') || null,
+                    representante_nome: formData.get('representante_nome'),
+                    representante_email: formData.get('representante_email'),
+                    representante_telefone: formData.get('representante_telefone') || null
+                };
+
+                try {
+                    const token = localStorage.getItem('smartchat_token');
+                    const url = editandoEmpresaId 
+                        ? `/api/empresas/${editandoEmpresaId}`
+                        : '/api/empresas/';
+                    const method = editandoEmpresaId ? 'PUT' : 'POST';
+
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(dadosEmpresa)
+                    });
+
+                    if (!response.ok) {
+                        const err = await response.json();
+                        throw new Error(err.detail || 'Erro ao salvar empresa.');
+                    }
+
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('modalEmpresa'));
+                    modal.hide();
+                    form.reset();
+                    editandoEmpresaId = null;
+                    carregarEmpresas();
+                    
+                } catch (error) {
+                    alert('Erro: ' + error.message);
+                } finally {
+                    btnSalvar.disabled = false;
+                    loading.classList.add('d-none');
+                }
+            });
+        });
+
+        function abrirModalNovaEmpresa() {
+            editandoEmpresaId = null;
+            document.getElementById('modalTitulo').textContent = 'Cadastrar Nova Empresa';
+            document.getElementById('formEmpresa').reset();
+        }
+
+        function abrirModalEditarEmpresa(id) {
+            editandoEmpresaId = id;
+            document.getElementById('modalTitulo').textContent = 'Editar Empresa';
+            
+            const token = localStorage.getItem('smartchat_token');
+            fetch(`/api/empresas/${id}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            .then(response => response.json())
+            .then(empresa => {
+                const form = document.getElementById('formEmpresa');
+                form.nome.value = empresa.nome || '';
+                form.cnpj.value = empresa.cnpj || '';
+                form.email_contato.value = empresa.email_contato || '';
+                form.representante_nome.value = empresa.representante_nome || '';
+                form.representante_email.value = empresa.representante_email || '';
+                form.representante_telefone.value = empresa.representante_telefone || '';
+                
+                const modal = new bootstrap.Modal(document.getElementById('modalEmpresa'));
+                modal.show();
+            })
+            .catch(error => {
+                alert('Erro ao carregar dados: ' + error.message);
+            });
+        }
+
+        // Função auxiliar para pegar iniciais do nome
+        function getIniciais(nome) {
+            return nome.split(' ')
+                .map(p => p[0])
+                .slice(0, 2)
+                .join('')
+                .toUpperCase();
+        }
+
+        async function carregarEmpresas() {
+            const grid = document.getElementById('gridEmpresas');
+            grid.innerHTML = `
+                <div class="col-12 text-center py-5 text-muted">
+                    <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                    Carregando...
+                </div>`;
+
+            try {
+                const token = localStorage.getItem('smartchat_token');
+                const response = await fetch('/api/empresas/', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) throw new Error('Falha ao buscar empresas');
+
+                const empresas = await response.json();
+
+                if (empresas.length === 0) {
+                    grid.innerHTML = `
+                        <div class="col-12 empty-state">
+                            <i class="bi bi-building d-block"></i>
+                            <h5>Nenhuma empresa cadastrada</h5>
+                            <p>Clique em "Nova Empresa" para começar.</p>
+                        </div>`;
+                    return;
+                }
+
+                grid.innerHTML = empresas.map(emp => `
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+                        <div class="empresa-card ${emp.is_ativo ? '' : 'inativa'}">
+                            <div class="empresa-header">
+                                <div class="empresa-avatar">
+                                    ${getIniciais(emp.nome)}
+                                </div>
+                                <div class="empresa-info">
+                                    <div class="empresa-nome" title="${emp.nome}">${emp.nome}</div>
+                                    <div class="empresa-cnpj">${emp.cnpj || 'Sem CNPJ'}</div>
+                                </div>
+                                <div class="empresa-actions">
+                                    <button class="btn-action edit" onclick="abrirModalEditarEmpresa(${emp.id})" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn-action delete" onclick="deletarEmpresa(${emp.id}, '${emp.nome}')" title="Excluir">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge ${emp.is_ativo ? 'bg-success bg-opacity-10 text-success' : 'bg-danger bg-opacity-10 text-danger'}" style="font-size: 0.75rem;">
+                                    ${emp.is_ativo ? 'Ativa' : 'Inativa'}
+                                </span>
+                                <button class="btn-action toggle ${emp.is_ativo ? 'active' : 'inactive'}" 
+                                        onclick="toggleStatus(${emp.id}, ${emp.is_ativo})" 
+                                        title="${emp.is_ativo ? 'Desativar' : 'Reativar'}"
+                                        style="width: auto; padding: 4px 8px; font-size: 0.75rem; gap: 4px;">
+                                    <i class="bi ${emp.is_ativo ? 'bi-pause-fill' : 'bi-play-fill'}"></i>
+                                    ${emp.is_ativo ? 'Desativar' : 'Reativar'}
+                                </button>
+                            </div>
+
+                            <div class="empresa-section">
+                                <div class="section-title">Representante</div>
+                                <div class="info-row">
+                                    <i class="bi bi-person"></i>
+                                    <span class="truncate">${emp.representante_nome}</span>
+                                </div>
+                                <div class="info-row">
+                                    <i class="bi bi-envelope"></i>
+                                    <span class="truncate" title="${emp.representante_email}">${emp.representante_email}</span>
+                                </div>
+                                ${emp.representante_telefone ? `
+                                <div class="info-row">
+                                    <i class="bi bi-telephone"></i>
+                                    <span class="truncate">${emp.representante_telefone}</span>
+                                </div>` : ''}
+                            </div>
+
+                            ${emp.email_contato ? `
+                            <div class="empresa-section">
+                                <div class="section-title">Contato Geral</div>
+                                <div class="info-row">
+                                    <i class="bi bi-envelope-at"></i>
+                                    <span class="truncate" title="${emp.email_contato}">${emp.email_contato}</span>
+                                </div>
+                            </div>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                grid.innerHTML = `
+                    <div class="col-12 text-center py-5 text-danger">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        Erro ao carregar dados.
+                    </div>`;
+            }
+        }
+
+        async function deletarEmpresa(id, nome) {
+            if (!confirm(`Tem certeza que deseja excluir PERMANENTEMENTE a empresa "${nome}"?\n\nEsta ação não pode ser desfeita.`)) {
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('smartchat_token');
+                const response = await fetch(`/api/empresas/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.detail || 'Erro ao excluir.');
+                }
+
+                carregarEmpresas();
+            } catch (error) {
+                alert('Erro: ' + error.message);
+            }
+        }
+
+        async function toggleStatus(id, estaAtivo) {
+            const acao = estaAtivo ? 'desativar' : 'reativar';
+            const texto = estaAtivo ? 'desativar' : 'reativar';
+            
+            if (!confirm(`Deseja realmente ${texto} esta empresa?`)) {
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('smartchat_token');
+                const response = await fetch(`/api/empresas/${id}/${acao}`, {
+                    method: 'PATCH',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.detail || `Erro ao ${texto}.`);
+                }
+
+                carregarEmpresas();
+            } catch (error) {
+                alert('Erro: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

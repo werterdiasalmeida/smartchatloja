@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart ChatLoja | O Vendedor Inteligente para Moda e Calçados</title>
+
+    <!-- Open Graph / WhatsApp / Facebook / LinkedIn -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Smart ChatLoja | O Vendedor Inteligente para Moda e Calçados">
+    <meta property="og:description"
+        content="O consultor de moda inteligente que vende 24h por dia. Conecte sua marca ao estoque e responda sobre tamanhos, cores e preços de forma instantânea pelo WhatsApp e Instagram.">
+    <meta property="og:image" content="https://werterdiasalmeida.github.io/smartchatloja/assets/img/logo_icone.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Smart ChatLoja - Vendedor Inteligente para Moda">
+    <meta property="og:url" content="https://werterdiasalmeida.github.io/smartchatloja/">
+    <meta property="og:site_name" content="Smart ChatLoja">
+    <meta property="og:locale" content="pt_BR">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Smart ChatLoja | O Vendedor Inteligente para Moda">
+    <meta name="twitter:description"
+        content="O consultor de moda inteligente que vende 24h por dia. Atendimento automatizado com consulta de estoque em tempo real.">
+    <meta name="twitter:image" content="https://werterdiasalmeida.github.io/smartchatloja/assets/img/logo_icone.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/img/logo_icone.png">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="brand-logo" href="#">
+                <img src="assets/img/logo_icone.png" alt="Smart ChatLoja" class="brand-logo-img">
+            </a>
+                &nbsp; <b>Smart</b>&nbsp;ChatLoja
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#solucao">O Problema</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#integracoes">Integrações</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#recursos">Recursos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#planos">Planos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+
+                <div class="col-lg-6">
+                    <center>
+                        <img src="assets/img/logo.png" alt="Smart ChatLoja" class="hero-logo">
+                    </center>
+                    <span class="text-uppercase fw-bold text-muted small tracking-wide">Para Lojas de Roupas e
+                        Calçados</span>
+
+                    <p class="lead mb-5">
+                        Conecte sua marca diretamente ao sistema de estoque. O Smart ChatLoja responde sobre tamanhos
+                        disponíveis, tabelas de medidas, cores e preços de forma instantânea e humana.
+                    </p>
+
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="#planos" class="btn btn-custom-dark btn-lg">Solicitar Proposta</a>
+                        <a href="demo/index.html" class="btn btn-custom-outline btn-lg">Ver Demonstração</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 offset-lg-1 mt-5 mt-lg-0">
+                    <div class="chat-box">
+                        <div class="msg user">Olá! Vocês têm aquele vestido azul midi no tamanho M?</div>
+                        <div class="msg bot">Deixe-me dar uma olhada no provador virtual... Sim! Temos 2 unidades do
+                            <strong>Vestido Midi Sofia Azul</strong> no tamanho M em estoque. Ele possui modelagem
+                            padrão. Deseja ver a tabela de medidas ou garantir o seu?</div>
+                        <div class="product-preview">
+                            <img src="assets/img/vestido-sofia.jpg" alt="Vestido Midi Sofia Azul">
+                            <div class="preview-label">Esse aqui? 👇</div>
+                        </div>
+                        <div class="msg user">Tem dele preto também?</div>
+                        <div class="msg bot">No tamanho M o preto esgotou hoje cedo, mas temos no G ou posso te mostrar
+                            o modelo <strong>Midi Luna Preto</strong> que acabou de chegar. Quer dar uma olhada nas
+                            fotos?</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="solucao" class="section-gray">
+        <div class="container text-center">
+            <span class="text-uppercase fw-bold text-muted small">Cenário Atual</span>
+            <h2 class="fw-bold mt-2 mb-5">O cliente de moda não espera o horário comercial</h2>
+
+            <div class="row g-4 text-start">
+                <div class="col-md-4">
+                    <div class="card-feature">
+                        <div class="card-title-custom">⏳ Perda por Demora</div>
+                        <p class="text-muted mb-0">Se o cliente pergunta sobre a numeração de um calçado à noite e você
+                            só responde de manhã, ele já comprou no concorrente.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-feature">
+                        <div class="card-title-custom">📊 Erro de Estoque</div>
+                        <p class="text-muted mb-0">Vender produtos que já esgotaram no físico gera frustração. Nosso
+                            robô consulta o sistema nativo da sua loja em tempo real.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-feature">
+                        <div class="card-title-custom">📱 Caixa de Entrada Lotada</div>
+                        <p class="text-muted mb-0">Dezenas de pessoas perguntando "Qual o preço?" ou "Tem P?".
+                            Automatize o fluxo básico e foque no fechamento de grandes sacolas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="integracoes" class="section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <span class="text-uppercase fw-bold text-muted small">Onde Seus Clientes Estão</span>
+                    <h2 class="fw-bold mt-2 mb-4">Venda diretamente pelo WhatsApp e Direct do Instagram</h2>
+                    <p class="text-muted lead mb-4">
+                        A jornada de compra de roupas e calçados é visual e altamente imediatista. Nossa plataforma
+                        unifica o atendimento transformando suas redes sociais em canais diretos de conversão.
+                    </p>
+
+                    <div class="mb-3 d-flex align-items-start">
+                        <div class="me-3 mt-1" style="color: var(--accent);">✔</div>
+                        <div>
+                            <strong>Integração Oficial com WhatsApp:</strong> Envie links de pagamento, atualizações de
+                            frete e fotos de peças alternativas sem que o cliente saia da conversa.
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex align-items-start">
+                        <div class="me-3 mt-1" style="color: var(--accent);">✔</div>
+                        <div>
+                            <strong>Automação no Instagram:</strong> Quando o cliente comentar em um post, o robô envia
+                            instantaneamente as variações de cores e tamanhos daquela peça no Direct.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1 mt-5 mt-lg-0">
+                    <div class="p-5 bg-light rounded-4 border border-1 text-center">
+                        <h4 class="fw-bold mb-3">Sincronização Nativa</h4>
+                        <p class="text-muted small">Nossa inteligência se conecta às APIs oficiais Meta e ao
+                            ERP/E-commerce da sua marca simultaneamente.</p>
+                        <hr class="my-4" style="border-color: var(--border-color);">
+                        <div class="d-flex justify-content-around align-items-center">
+                            <span class="fw-semibold">Instagram</span>
+                            <span class="text-muted">➔</span>
+                            <span class="fw-bold" style="color: var(--accent);">Smart ChatLoja</span>
+                            <span class="text-muted">➔</span>
+                            <span class="fw-semibold">Seu Estoque</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="recursos" class="section-gray">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5">Desenvolvido para o Varejo de Moda</h2>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card-feature">
+                        <div class="card-title-custom">👟 Grade de Tamanhos</div>
+                        <p class="text-muted mb-0">Busca automatizada por variações de numeração (Ex: "Tem o tênis
+                            tamanho 37?").</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-feature">
+                        <div class="card-title-custom">🎨 Paleta de Cores</div>
+                        <p class="text-muted mb-0">Identifica e sugere variações cromáticas do mesmo produto cadastradas
+                            no sistema.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-feature">
+                        <div class="card-title-custom">🔄 Cross-Selling de Looks</div>
+                        <p class="text-muted mb-0">Se o cliente escolher uma calça, a IA sugere blusas ou calçados
+                            complementares para fechar o look.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-feature">
+                        <div class="card-title-custom">💰 Preços Sempre Atualizados</div>
+                        <p class="text-muted mb-0">Alterou o preço na etiqueta do sistema físico? O bot atualiza o valor
+                            nas redes sociais na mesma hora.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-feature">
+                        <div class="card-title-custom">🛒 Carrinho Integrado</div>
+                        <p class="text-muted mb-0">Gera o link de checkout pronto com os produtos escolhidos para o
+                            cliente apenas pagar.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-feature">
+                        <div class="card-title-custom">📈 Dashboard de Tendências</div>
+                        <p class="text-muted mb-0">Saiba quais são as peças mais procuradas e quais tamanhos estão em
+                            falta no seu estoque.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="planos" class="section">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-5">Planos Transparentes</h2>
+
+            <div class="row g-4 align-items-stretch">
+                <div class="col-lg-4">
+                    <div class="plan">
+                        <h4 class="fw-bold">Boutique Starter</h4>
+                        <p class="text-muted mb-4">Ideal para marcas locais e lojas físicas em crescimento.</p>
+                        <hr class="my-4" style="border-color: var(--border-color);">
+                        <ul class="text-start list-unstyled mb-5">
+                            <li class="mb-2">✓ Integração WhatsApp Comercial</li>
+                            <li class="mb-2">✓ Consulta de estoque simples</li>
+                            <li class="mb-2">✓ Respostas sobre grade e cores</li>
+                            <li class="mb-2">✓ Suporte via e-mail</li>
+                        </ul>
+                        <a href="#" class="btn btn-custom-outline w-100">Solicitar Proposta</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="plan featured">
+                        <div class="badge-featured">Mais Vendido</div>
+                        <h4 class="fw-bold">Fashion Scale</h4>
+                        <p class="text-muted mb-4">Para lojas de roupas e calçados com alto volume de mensagens.</p>
+                        <hr class="my-4" style="border-color: var(--border-color);">
+                        <ul class="text-start list-unstyled mb-5">
+                            <li class="mb-2">✓ WhatsApp + Instagram Direct</li>
+                            <li class="mb-2">✓ Consulta em tempo real (Grade/Estoque)</li>
+                            <li class="mb-2">✓ Recomendações e Cross-selling</li>
+                            <li class="mb-2">✓ Suporte Prioritário</li>
+                        </ul>
+                        <a href="#" class="btn btn-custom-dark w-100">Solicitar Proposta</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="plan">
+                        <h4 class="fw-bold">Enterprise Omnichannel</h4>
+                        <p class="text-muted mb-4">Para grandes redes de lojas e franquias de moda.</p>
+                        <hr class="my-4" style="border-color: var(--border-color);">
+                        <ul class="text-start list-unstyled mb-5">
+                            <li class="mb-2">✓ Dashboard personalizado </li>
+                            <li class="mb-2">✓ Ferramenta de remarketing </li>
+                            <li class="mb-2">✓ Multi-integrações (ERP/ETL Próprio)</li>
+                            <li class="mb-2">✓ Divisão de estoque por filiais físicas</li>
+                            <li class="mb-2">✓ IA sob medida (Tom de voz da marca)</li>
+                            <li class="mb-2">✓ Gerente de conta exclusivo</li>
+                        </ul>
+                        <a href="#" class="btn btn-custom-outline w-100">Solicitar Proposta</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="section-gray">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-5">Perguntas Frequentes</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion accordion-flush" id="faqAccordion">
+                        <div class="accordion-item bg-transparent">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button bg-transparent fw-semibold" data-bs-toggle="collapse"
+                                    data-bs-target="#f1">
+                                    Como o robô sabe se o calçado ou tamanho da roupa acabou?
+                                </button>
+                            </h2>
+                            <div id="f1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted">
+                                    O Smart ChatLoja conecta-se diretamente ao banco de dados do sistema de vendas ou
+                                    ERP da sua loja. Toda vez que uma peça é vendida no balcão físico ou site, a
+                                    quantidade se atualiza para o robô automaticamente.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item bg-transparent">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-transparent fw-semibold"
+                                    data-bs-toggle="collapse" data-bs-target="#f2">
+                                    A integração com o Instagram e WhatsApp segue as regras da Meta?
+                                </button>
+                            </h2>
+                            <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted">
+                                    Sim, operamos exclusivamente utilizando as APIs oficiais Cloud da Meta, o que
+                                    garante a segurança da sua conta, evita bloqueios e traz total estabilidade para o
+                                    seu negócio.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="text-center">
+        <div class="container">
+            <a class="brand-logo justify-content-center mb-3" href="#">
+                <img src="assets/img/logo_icone.png" alt="Smart ChatLoja" class="brand-logo-img">
+            </a>
+            <p class="mb-4">O braço direito das maiores lojas de moda e calçados do país.</p>
+            <p class="small mb-0">
+                © 2026 Smart ChatLoja - Todos os direitos reservados.<br>
+                contato@smartchatloja.com.br
+            </p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
